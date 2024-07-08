@@ -2,7 +2,7 @@
         
   <HomeComponent />
         
-  </template>
+</template>
   
   <script>
   import HomeComponent from '@/components/HomeComponent.vue';
@@ -13,8 +13,3 @@
     }
   };
   </script>
-  
-  <style scoped>
-  /* Add your styles here */
-  </style>
-  

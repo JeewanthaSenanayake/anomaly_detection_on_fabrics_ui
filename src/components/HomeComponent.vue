@@ -1,5 +1,6 @@
 <template>
     <v-container>
+    
         <H1 class="text-center">Fabric Defect Detector</H1>
         <v-card class="my-5 mx-5" elevation="2" dark>
             <v-card-title>
@@ -61,7 +62,7 @@ export default {
     }),
 
     methods: {
-        // Add your methods here
+        // this.$router.push({ name: 'about' });
 
         async submit() {
             this.loading = true;
@@ -72,10 +73,17 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((response) => {
-                this.responseData = response.data;
+                if(response.status === 200){
+                    this.responseData = response.data;
                 this.loading = false;
                 console.log(response.data);
+                }else{
+                    this.responseData = null;
+                    this.loading = false;
+                }
+                
             }).catch((error) => {
+                this.responseData = null;
                 console.log(error);
                 this.loading = false;
             });
