@@ -79,8 +79,7 @@ export default {
             '/images/003.png',
             '/images/004.png',
             '/images/005.png',
-            '/images/006.png',
-            '/images/007.png'
+            '/images/006.png'
         ]
     }),
 
@@ -118,6 +117,7 @@ export default {
             const formData = new FormData()
 
             formData.append('file', img);
+            formData.append('Fname', fileName);
 
 
             await axios.post('/fabric/api/v1/isdefective', formData, {

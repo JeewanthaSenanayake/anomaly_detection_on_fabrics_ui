@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import HomeView from '@/views/HomeView.vue'
 import TestingView from '@/views/TestingView.vue';
 import HistoryView from '@/views/HistoryView.vue';
+import ProductView from '@/views/ProductView.vue';
 
 
 Vue.use(VueRouter);
@@ -22,6 +23,11 @@ const routes = [
     path: '/production_history',
     name: 'HistoryView',
     component: HistoryView
+  },
+  {
+    path: '/view_product/:id',
+    name: 'ProductView',
+    component: ProductView
   }
 ];
 

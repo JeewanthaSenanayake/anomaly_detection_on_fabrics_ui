@@ -1,11 +1,10 @@
 <template>
     <v-container>
         <H1 class="text-center mb-3">Production History</H1>
-        <H2 class="my-3">Production Line Accuracy {{ historyData.accuracy }}%</H2>
+        
         <v-card v-if="historyData">
             <v-card-title>
-                <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                    hide-details></v-text-field>
+                <H2 class="my-3">Production Line Accuracy {{ historyData.accuracy }}%</H2>
             </v-card-title>
             <v-data-table :headers="headers" :items="desserts" :search="search" item-key="id">
 
@@ -16,6 +15,9 @@
                 </template>
                 <template v-slot:[`item.date`]="{ item }">
                     {{ dateTime(item.date) }}
+                </template>
+                <template v-slot:[`item.action`]="{ item }">
+                    <v-btn color="orange" small @click="procuts(item.id)">Action</v-btn>
                 </template>
             </v-data-table>
         </v-card>
@@ -34,15 +36,18 @@ export default {
             {
                 text: 'Name',
                 align: 'start',
-                filterable: false,
                 value: 'file',
             },
-            { text: 'Date', value: 'date' },
-            { text: 'Status', value: 'status' }
+            { text: 'Date', value: 'date',align: 'start', },
+            { text: 'Status', value: 'status',align: 'start', },
+            { text: 'Action', value: 'action',align: 'start', }
         ],
         desserts: [],
     }),
     methods: {
+        procuts(id) {
+            this.$router.push({ name: 'ProductView' , params: { id }} );
+        },
         async getHistory() {
             this.loading = true;
             await axios.get('/fabric/api/v1/productionhistory').then((response) => {
@@ -79,7 +84,6 @@ export default {
 
     mounted() {
         this.getHistory();
-        this.getImageFiles("/images");
     }
 }
 </script>

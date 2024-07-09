@@ -88,6 +88,7 @@ export default {
             this.loading = true;
             const formData = new FormData()
             formData.append('file', this.selectedImage);
+            formData.append('Fname', "none");
             
             
             await axios.post('/fabric/api/v1/isdefective', formData, {
