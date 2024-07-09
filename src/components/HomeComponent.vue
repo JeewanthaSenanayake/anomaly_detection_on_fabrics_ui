@@ -13,12 +13,18 @@
                 <div v-else >
                     <center>
                         <v-row class="mt-3">
-                            <v-col cols="6">
+                            <v-col cols="4">
                                 <v-img :src="imgeUrl" height="300px" width="300px"></v-img>
                             </v-col>
-                            <v-col cols="6">
+                            <v-col cols="4">
                                 <v-img :src="`data:image/jpeg;base64,${responseData.reconstruct_image}`" height="300px"
                                     width="300px"></v-img>
+                            </v-col>
+                            <v-col cols="4">
+                                <v-img v-if="responseData.status" src="/alerts/2.png" height="300px"
+                                    width="300px"></v-img>
+                                <v-img v-else src="/alerts/1.png" height="300px" width="300px"></v-img>
+
                             </v-col>
                         </v-row>
                     </center>
@@ -34,14 +40,7 @@
                             <v-col>
                                 {{ dateTime(responseData.date) }}
                             </v-col>
-                            <v-col>
-                                <v-chip v-if="responseData.status" color="error" class="ma-1 pa-2" dark>
-                                    Defective
-                                </v-chip>
-                                <v-chip v-else color="success" class="ma-1 pa-2" dark>
-                                    Not Defective
-                                </v-chip>
-                            </v-col>
+                            
                         </v-col>
                     </div>
                     <div v-else>

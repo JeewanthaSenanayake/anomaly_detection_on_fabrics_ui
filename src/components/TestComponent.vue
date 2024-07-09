@@ -3,11 +3,11 @@
 
         <H1 class="text-center">Testing Queue</H1>
 
-        <v-card class="my-5 mx-5" elevation="2" dark>
+        <v-card class="my-5 mx-5 pb-2" elevation="2" dark>
             <v-card-title>
                 <H4 v-if="loading">Predicting Image :- {{ getImgName(queImgId) }}</H4>
             </v-card-title>
-            <center v-if="!loading"><v-btn color="green" class="mt-2 mb-3" @click="callAllImg(0)">Start</v-btn></center>
+            <center v-if="loading1"><v-btn color="green" class="mt-2 mb-3" @click="callAllImg(0)">Start</v-btn></center>
             <div>
                 <v-progress-linear v-if="loading" class="mt-4 mb-4" indeterminate
                     color="yellow darken-2"></v-progress-linear>
@@ -26,9 +26,9 @@
                                     width="300px"></v-img>
                             </v-col>
                             <v-col cols="4">
-                                <v-img v-if="responseData.status" src="/images/alerts/2.png" height="300px"
+                                <v-img v-if="responseData.status" src="/alerts/2.png" height="300px"
                                     width="300px"></v-img>
-                                <v-img v-else src="/images/alerts/1.png" height="300px" width="300px"></v-img>
+                                <v-img v-else src="/alerts/1.png" height="300px" width="300px"></v-img>
 
                             </v-col>
                         </v-row>
@@ -45,14 +45,9 @@
                             <v-col>
                                 {{ dateTime(responseData.date) }}
                             </v-col>
-                            <!-- <v-col>
-                                <v-chip v-if="responseData.status" color="error" class="ma-1 pa-2" dark>
-                                    Defective
-                                </v-chip>
-                                <v-chip v-else color="success" class="ma-1 pa-2" dark>
-                                    Not Defective
-                                </v-chip>
-                            </v-col> -->
+                            <v-col>
+                                <v-btn v-if="responseData.status" color="green" class="mt-2 mb-3" @click="()=>{queImgId++;loading = true}">Continue</v-btn>
+                            </v-col>
                         </v-col>
                     </div>
 
@@ -73,7 +68,9 @@ export default {
     data: () => ({
         selectedImage: null,
         responseData: null,
+        
         loading: false,
+        loading1: true,
         queImgId: 0,
         imagePaths: [
             '/images/000.png',
@@ -94,10 +91,10 @@ export default {
             return blob;
         },
 
-
-
         async callAllImg(i) {
+            this.loading1 = false;
             if (i == 0) {
+                this.queImgId=0;
                 this.loading = true;
             }
             console.log(this.imagePaths.length)
@@ -108,8 +105,6 @@ export default {
             } else {
                 console.log("Error in fetching image");
             }
-
-
         },
 
         async submit(img, fileName) {
@@ -129,10 +124,14 @@ export default {
                     this.responseData = response.data;
                     this.responseData.file = fileName;
                     console.log(response.data);
+                    if(!this.responseData.status){
+                        this.queImgId++;
+                    }else{
+                        this.loading = false;
+                    }
                 } else {
                     this.responseData = null;
-                }
-                this.queImgId++;
+                }     
 
             }).catch((error) => {
                 this.responseData = null;
@@ -162,8 +161,6 @@ export default {
         imgeUrl() {
             return URL.createObjectURL(this.selectedImage);
         },
-
-
     },
 
     watch: {
@@ -171,7 +168,9 @@ export default {
             if (this.queImgId < this.imagePaths.length) {
                 this.callAllImg(this.queImgId);
             } else {
+                this.loading1= true;
                 this.loading = false;
+                
             }
 
         }

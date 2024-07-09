@@ -8,9 +8,9 @@
                     hide-details></v-text-field>
             </v-card-title>
             <v-data-table :headers="headers" :items="desserts" :search="search" item-key="id">
-                
+
                 <template v-slot:[`item.status`]="{ item }">
-                    <v-chip :color="item.status ?`red`:`green`" dark>
+                    <v-chip :color="item.status ? `red` : `green`" dark>
                         {{ item.status ? 'Defective' : 'Not Defective' }}
                     </v-chip>
                 </template>
@@ -23,6 +23,7 @@
 </template>
 <script>
 import axios from '@/service/axiosConfig';
+
 export default {
     name: 'HistoryComponent',
     data: () => ({
@@ -72,10 +73,13 @@ export default {
                 hour12: true
             };
             return date.toLocaleDateString(undefined, options);
-        }
+        },
     },
+
+
     mounted() {
         this.getHistory();
+        this.getImageFiles("/images");
     }
 }
 </script>
