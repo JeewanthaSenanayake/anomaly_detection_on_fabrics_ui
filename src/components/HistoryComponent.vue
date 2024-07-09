@@ -29,7 +29,7 @@ import axios from '@/service/axiosConfig';
 export default {
     name: 'HistoryComponent',
     data: () => ({
-        historyData: null,
+        historyData: true,
         loading: false,
         search: '',
         headers: [
