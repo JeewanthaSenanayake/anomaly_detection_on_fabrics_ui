@@ -1,35 +1,54 @@
 <template>
     <v-container>
-    
+
         <H1 class="text-center">Fabric Defect Detector</H1>
         <v-card class="my-5 mx-5" elevation="2" dark>
             <v-card-title>
                 <h3>Upload Image</h3>
             </v-card-title>
-
-            <div justify="center" align="center">
-                <v-img v-if="selectedImage" :src="imgeUrl" height="300px" width="300px"></v-img>
-                <div v-if="responseData">
-                    <v-col>
-                        <v-col>
-                            {{ responseData.file }}
-                        </v-col>
-                        <v-col>
-                            {{ dateTime(responseData.date) }}
-                        </v-col>
-                        <v-col>
-                            <v-chip v-if="responseData.status" color="error" class="ma-1 pa-2" dark>
-                                Defective
-                            </v-chip>
-                            <v-chip v-else color="success" class="ma-1 pa-2" dark>
-                                Not Defective
-                            </v-chip>
-                        </v-col>
-                    </v-col>
+            <!-- justify="center" align="center" -->
+            <div>
+                <div v-if="!responseData" justify="center" align="center">
+                    <v-img v-if="selectedImage" :src="imgeUrl" height="300px" width="300px"></v-img>
                 </div>
-                <div v-else>
-                    <v-progress-linear v-if="loading" class="mt-4" indeterminate
-                        color="yellow darken-2"></v-progress-linear>
+                <div v-else >
+                    <center>
+                        <v-row class="mt-3">
+                            <v-col cols="6">
+                                <v-img :src="imgeUrl" height="300px" width="300px"></v-img>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-img :src="`data:image/jpeg;base64,${responseData.reconstruct_image}`" height="300px"
+                                    width="300px"></v-img>
+                            </v-col>
+                        </v-row>
+                    </center>
+                </div>
+
+
+                <div justify="center" align="center">
+                    <div v-if="responseData">
+                        <v-col>
+                            <v-col>
+                                {{ responseData.file }}
+                            </v-col>
+                            <v-col>
+                                {{ dateTime(responseData.date) }}
+                            </v-col>
+                            <v-col>
+                                <v-chip v-if="responseData.status" color="error" class="ma-1 pa-2" dark>
+                                    Defective
+                                </v-chip>
+                                <v-chip v-else color="success" class="ma-1 pa-2" dark>
+                                    Not Defective
+                                </v-chip>
+                            </v-col>
+                        </v-col>
+                    </div>
+                    <div v-else>
+                        <v-progress-linear v-if="loading" class="mt-4" indeterminate
+                            color="yellow darken-2"></v-progress-linear>
+                    </div>
                 </div>
             </div>
 
@@ -44,11 +63,13 @@
                 </v-btn>
             </div>
         </v-card>
+
     </v-container>
 </template>
 
 <script>
 import axios from '@/service/axiosConfig';
+
 export default {
     name: 'HomeComponent',
 
@@ -59,10 +80,11 @@ export default {
         rules: [
             value => !!value || "File required",
         ],
+
     }),
 
     methods: {
-        // this.$router.push({ name: 'about' });
+
 
         async submit() {
             this.loading = true;
@@ -73,15 +95,17 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((response) => {
-                if(response.status === 200){
+                if (response.status === 200) {
                     this.responseData = response.data;
-                this.loading = false;
-                console.log(response.data);
-                }else{
+                    // this.responseData.input_image = `data:image/jpeg;base64,${this.responseData.input_image}`;
+                    // this.responseData.reconstruct_image = `data:image/jpeg;base64,${this.responseData.reconstruct_image}`;
+                    this.loading = false;
+                    console.log(response.data);
+                } else {
                     this.responseData = null;
                     this.loading = false;
                 }
-                
+
             }).catch((error) => {
                 this.responseData = null;
                 console.log(error);
@@ -112,6 +136,13 @@ export default {
         imgeUrl() {
             return URL.createObjectURL(this.selectedImage);
         },
+
+        getImageUrl() {
+            const x = `data:image/jpeg;base64,${this.responseData.input_image}`
+            console.log(x);
+            return x;
+        },
+
     },
 
     watch: {
@@ -120,5 +151,6 @@ export default {
             this.loading = false;
         }
     },
+
 };
 </script>

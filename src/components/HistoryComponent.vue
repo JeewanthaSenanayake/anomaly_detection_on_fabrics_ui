@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <H1 class="text-center mb-3">Production History</H1>
-        <H3 class="my-3">Production Line Accuracy {{ historyData.accuracy }}%</H3>
+        <H2 class="my-3">Production Line Accuracy {{ historyData.accuracy }}%</H2>
         <v-card v-if="historyData">
             <v-card-title>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
