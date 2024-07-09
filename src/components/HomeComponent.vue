@@ -6,7 +6,6 @@
             <v-card-title>
                 <h3>Upload Image</h3>
             </v-card-title>
-            <!-- justify="center" align="center" -->
             <div>
                 <div v-if="!responseData" justify="center" align="center">
                     <v-img v-if="selectedImage" :src="imgeUrl" height="300px" width="300px"></v-img>
@@ -90,6 +89,8 @@ export default {
             this.loading = true;
             const formData = new FormData()
             formData.append('file', this.selectedImage);
+            
+            
             await axios.post('/fabric/api/v1/isdefective', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
