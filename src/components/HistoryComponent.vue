@@ -17,7 +17,7 @@
                     {{ dateTime(item.date) }}
                 </template>
                 <template v-slot:[`item.action`]="{ item }">
-                    <v-btn color="orange" small @click="procuts(item.id)">Action</v-btn>
+                    <v-btn color="orange" small @click="procuts(item.id)">View</v-btn>
                 </template>
             </v-data-table>
         </v-card>
